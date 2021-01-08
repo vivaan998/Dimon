@@ -1,0 +1,184 @@
+.w-100 {
+    width: 100% !important;
+}
+
+.d-inline-block {
+    display: inline-block !important;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.pos-rel {
+    position: relative !important;
+}
+
+.p-1 {
+    padding: 1rem !important;
+}
+
+.pt-1 {
+    padding-top: 1rem !important;
+}
+
+.pb-1 {
+    padding-bottom: 1rem !important;
+}
+
+.pl-1 {
+    padding-left: 1rem !important;
+}
+
+.pr-1 {
+    padding-right: 1rem !important;
+}
+
+.m-0 {
+    margin: 0 !important;
+}
+
+.ml-05 {
+    margin-left: 0.5rem !important;
+}
+
+.ml-1 {
+    margin-left: 1rem !important;
+}
+
+.ml-2 {
+    margin-left: 2rem !important;
+}
+
+.mt-05 {
+    margin-top: 0.5rem !important;
+}
+
+.mt-1 {
+    margin-top: 1rem !important;
+}
+
+.mt-2 {
+    margin-top: 2rem !important;
+}
+
+.mb-1 {
+    margin-bottom: 1rem !important;
+}
+
+.text-bold {
+    font-weight: bolder !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.v-divider {
+    border-right: 2px solid gray !important;
+}
+
+.bg-white {
+    background-color: #FFFFFF !important;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #80808052 !important;
+}
+
+.data-source-container {
+    width: 80%;
+    display: inline-block;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 2rem;
+    border: 1px solid gray;
+}
+
+.modal-window {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+}
+
+.modal-window:target {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-window > div {
+    width: 100%;
+    max-width: 600px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background: #ffffff;
+    border-radius: 8px;
+}
+
+.modal-window > header {
+    font-weight: bold;
+}
+
+.modal-window h1 {
+    border-bottom: 1px solid #80808052;
+    padding-bottom: 0.3rem;
+    margin-bottom: 1rem;
+    font-size: 28px;
+}
+
+.modal-window div:not(:last-of-type) {
+  margin-bottom: 15px;
+}
+
+.modal-close {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #949494;
+    line-height: 50px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    font-size: 16px;
+    width: 60px;
+    height: 34px;
+    text-decoration: none;
+    font-weight: bold;
+    padding-top: 5px;
+}
+
+.modal-window:hover {
+    color: black;
+}
+
+.config-menu {
+    font-size: 18px;
+    background-color: white;
+    cursor: pointer;
+    display: block;
+    height: auto;
+}
+
+.config-menu-active {
+    color: white;
+    background-color: #0D9BAB;
+}

@@ -1,0 +1,202 @@
+<html lang="en">
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+   
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/layerx.min.css') }}">
+    <title> Dimon </title>
+
+    <script src="{{ url_for('static', filename='js/all.min.js') }}"></script>
+
+    <style>
+        .GA2WAMDBFQ {
+            font-size: 14px;
+            color: #95a5a6;
+            padding-left: 100px;
+            padding-bottom: 10px;
+        }
+
+        .GA2WAMDBDQ {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: -10px;
+            padding-top: 10px;
+        }
+
+        .GA2WAMDBGQ {
+            max-width: 380px !important;
+            margin: 0 auto 10px;
+        }
+
+        .GA2WAMDBEQ {
+            padding-left: 110px;
+        }
+    </style>
+</head>
+<body>
+<noscript>
+    <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+        Your web browser must have JavaScript enabled
+        in order for this application to display correctly.
+    </div>
+</noscript>
+
+<div class="gwt-PopupPanel" style="z-index: 9999; position: absolute; left: 0; top: 577px; overflow: visible;">
+    <div class="popupContent">
+        <table cellspacing="5" cellpadding="0" class="growl" style="width: 100%;">
+            <tbody>
+            <tr></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="auth-popup-wrapper">
+    <div class="popupContent" style="display: table; width: 100%; height: 100%;">
+        <div class="auth-login-container" style="display: table-cell; vertical-align: middle; align-items: center;">
+            <div class="auth-login-panel login-panel" style="display: block;">
+                <img class="GA2WAMDBGQ auth-login-image" alt="logo"
+                     src="{{ url_for('static', filename='login.png') }}"
+                     style="display: block;">
+                <div class="GA2WAMDBFQ" aria-hidden="true" style="display: none;">LOGGING IN, PLEASE WAIT..</div>
+                <div class="GA2WAMDBFQ" style="display: none;" aria-hidden="true">VALIDATING SESSION</div>
+                <div>
+                    <table cellspacing="5" cellpadding="0" style="display: block;">
+                        <tbody>
+                        <tr>
+                            <td align="left" style="vertical-align: middle;">
+                                <div class="auth-login-label login-header">USERNAME</div>
+                            </td>
+                            <td align="left" style="vertical-align: middle;"><i class="icon-user"
+                                                                                style="color: rgb(149, 165, 166); font-size: 14px;"></i>
+                            </td>
+                            <td align="left" style="vertical-align: middle;">
+                                <label>
+                                    <input type="text" class="auth-login-input" id="username"
+                                           placeholder="Username">
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table cellspacing="5" cellpadding="0" style="display: block;">
+                        <tbody>
+                        <tr>
+                            <td align="left" style="vertical-align: middle;">
+                                <div class="auth-login-label login-header">PASSWORD</div>
+                            </td>
+                            <td align="left" style="vertical-align: middle;"><i class="icon-lock"
+                                                                                style="color: rgb(149, 165, 166); font-size: 14px;"></i>
+                            </td>
+                            <td align="left" style="vertical-align: middle;">
+                                <label>
+                                    <input type="password" id="password"
+                                           class="auth-login-input"
+                                           placeholder="Password">
+                                </label>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table cellspacing="5" cellpadding="0" style="display: block;">
+                        <tbody>
+                        <tr>
+                            <td align="left" style="vertical-align: middle;">
+                                <div style="width: 97px">
+                                    <div id="divLoginActivity" style="display: none">
+                                        <div class="loadingio-spinner-spinner-sxel7ixs55d">
+                                            <div class="ldio-j1dxoqf36gb">
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td align="left" style="vertical-align: middle;"><a onclick="login()"
+                                                                                class="btn btn-beyond5"
+                                                                                style="width: 240px;"><i></i> SIGN IN
+                            </a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table cellspacing="5" cellpadding="0" aria-hidden="true" style="display: none;">
+                        <tbody>
+                        <tr>
+                            <td align="left" style="vertical-align: middle;"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <table cellspacing="5" cellpadding="0" style="display: block;">
+                        <tbody>
+                        <tr>
+                            <td align="left" style="vertical-align: middle;"><a class="GA2WAMDBEQ" href=""
+                                                                                title="TRUSTe online privacy certification"
+                                                                                aria-hidden="true"
+                                                                                style="display: none;"></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="GA2WAMDBDQ" style="display: block;">
+                        <div class="alert alert-error" id="alert" aria-hidden="true" style="display: none;">
+                            <span></span>
+                        </div>
+
+                        {% if unauthorized %}
+                            <div class="alert alert-error" id="alert" aria-hidden="true">
+                                <span>Invalid access or session timeout</span>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+    function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username.trim() && password.trim()) {
+            document.getElementById('divLoginActivity').style.display = 'block';
+            $.ajax({
+                type: 'POST',
+                url: "/login",
+                data: JSON.stringify({
+                    username: username,
+                    password: password
+                }),
+                contentType: 'application/json',
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById('divLoginActivity').style.display = 'none';
+                    window.location.href = '/dashboard';
+                },
+                error: function (error) {
+                    document.getElementById('alert').style.display = 'block';
+                    document.getElementById('divLoginActivity').style.display = 'none';
+                    document.getElementById('alert').innerHTML = '<span>' + error.responseJSON.message + '</span>';
+                }
+            });
+        }
+    }
+</script>
+
+</body>
+</html>
