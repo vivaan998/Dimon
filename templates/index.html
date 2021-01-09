@@ -29,7 +29,9 @@
 
         .GA2WAMDBGQ {
             max-width: 380px !important;
-            margin: 0 auto 10px;
+            max-height: 150px !important;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .GA2WAMDBEQ {
@@ -60,7 +62,7 @@
             <div class="auth-login-panel login-panel" style="display: block;">
                 <img class="GA2WAMDBGQ auth-login-image" alt="logo"
                      src="{{ url_for('static', filename='login.png') }}"
-                     style="display: block;">
+                     style="display: block;height: 8%;">
                 <div class="GA2WAMDBFQ" aria-hidden="true" style="display: none;">LOGGING IN, PLEASE WAIT..</div>
                 <div class="GA2WAMDBFQ" style="display: none;" aria-hidden="true">VALIDATING SESSION</div>
                 <div>
@@ -104,6 +106,7 @@
                     <table cellspacing="5" cellpadding="0" style="display: block;">
                         <tbody>
                         <tr>
+
                             <td align="left" style="vertical-align: middle;">
                                 <div style="width: 97px">
                                     <div id="divLoginActivity" style="display: none">
@@ -126,9 +129,9 @@
                                     </div>
                                 </div>
                             </td>
-                            <td align="left" style="vertical-align: middle;"><a onclick="login()"
-                                                                                class="btn btn-beyond5"
-                                                                                style="width: 240px;"><i></i> SIGN IN
+                        <td align="left" style="vertical-align: middle;margin-left: 2%;"><a onclick="login()"
+                                                            class="btn btn-beyond5"
+                                                            style="width: 240px;background-color: #000000;"><i></i> SIGN IN
                             </a></td>
                         </tr>
                         </tbody>
@@ -140,26 +143,10 @@
                         </tr>
                         </tbody>
                     </table>
-                    <table cellspacing="5" cellpadding="0" style="display: block;">
-                        <tbody>
-                        <tr>
-                            <td align="left" style="vertical-align: middle;"><a class="GA2WAMDBEQ" href=""
-                                                                                title="TRUSTe online privacy certification"
-                                                                                aria-hidden="true"
-                                                                                style="display: none;"></a></td>
-                        </tr>
-                        </tbody>
-                    </table>
                     <div class="GA2WAMDBDQ" style="display: block;">
                         <div class="alert alert-error" id="alert" aria-hidden="true" style="display: none;">
                             <span></span>
                         </div>
-
-                        {% if unauthorized %}
-                            <div class="alert alert-error" id="alert" aria-hidden="true">
-                                <span>Invalid access or session timeout</span>
-                            </div>
-                        {% endif %}
                     </div>
                 </div>
             </div>

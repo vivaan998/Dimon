@@ -3,7 +3,8 @@ import logging
 from datetime import timedelta
 from flask import Flask, render_template, request, session, redirect, url_for
 
-from config.accounts import login_service
+from config.accounts import login_service, add_user, get_users, update_user, delete_user
+from config.log_data import get_logs
 
 module_directory = os.path.dirname(os.path.realpath(__file__))
 
@@ -37,10 +38,33 @@ def logout():
 
 
 @application.route('/dashboard')
-def mains():
+def dashboard():
     logging.info('Running dashboard...')
     if 'user_name' in session:
-        return render_template('dashboard.html', username=session['user_name'])
+        return render_template('dashboard.html', username=session['user_name'], role=session['role'])
+    else:
+        return render_template('index.html', unauthorized=True)
+
+
+@application.route('/users', methods=['POST', 'GET', 'PUT', 'DELETE'])
+def users():
+    if 'user_name' and 'role' in session and session['role'] == 'admin':
+        if request.method == 'POST':
+            return add_user(request.json)
+        elif request.method == 'GET':
+            return get_users()
+        elif request.method == 'PUT':
+            return update_user(request.json)
+        else:
+            return delete_user(request.json)
+    else:
+        return render_template('index.html', unauthorized=True)
+
+
+@application.route('/logs', methods=['GET'])
+def logs():
+    if 'user_name' and 'role' in session and session['role'] == 'admin':
+        return get_logs()
     else:
         return render_template('index.html', unauthorized=True)
 

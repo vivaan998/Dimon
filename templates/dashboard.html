@@ -1,312 +1,105 @@
 <html lang="en">
 <head>
-    <!--[if lte IE 10]>
-    <meta http-equiv="X-UA-Compatible" content="IE=9">
-    <![endif]-->
-    <!--[if lte IE 9]>
-    <meta http-equiv="X-UA-Compatible" content="IE=8">
-    <![endif]-->
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/layerx.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <title> AnalytiX :: Collector </title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style3.css') }}">
+        <!-- Scrollbar Custom CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 
-    <script src="{{ url_for('static', filename='js/all.min.js') }}"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <style>
-        .GA2WAMDBBP {
-            cursor: pointer;
-            color: #666;
-            font-weight: bold;
-            font-size: 12px;
-        }
-
-        .GA2WAMDBBP:hover {
-            color: #fff;
-        }
-
-        .GA2WAMDBBP:active {
-            color: #ccc;
-        }
-
-        .GA2WAMDBCP:enabled, .GA2WAMDBCP:disabled, .GA2WAMDBCP:focus {
-            color: #fff;
-            height: 26px;
-            line-height: 26px;
-            -webkit-border-radius: 6px;
-            -moz-border-radius: 6px;
-            border-radius: 6px;
-            background-color: #000;
-            border-color: #ccc;
-            font-size: 14px;
-        }
-
-        .GA2WAMDBHQ {
-            width: 245px;
-            color: #fe0;
-        }
-
-        .GA2WAMDBFQ {
-            font-size: 14px;
-            color: #95a5a6;
-            padding-left: 100px;
-            padding-bottom: 10px;
-        }
-
-        .GA2WAMDBDQ {
-            margin-left: 10px;
-            margin-right: 10px;
-            margin-bottom: -10px;
-            padding-top: 10px;
-        }
-
-        .GA2WAMDBGQ {
-            max-width: 380px !important;
-            margin: 0 auto;
-            margin-bottom: 10px;
-        }
-
-        .GA2WAMDBEQ {
-            padding-left: 110px;
-        }
-
-        .GA2WAMDBIQ {
-            border: none;
-            max-width: 380px !important;
-            margin: 0 auto;
-            margin-bottom: 10px;
-        }</style>
-    <style>
-        .GA2WAMDBHR {
-            margin-top: -1px;
-            margin-left: 4px;
-        }
-
-        .GA2WAMDBLR {
-            padding-left: 10px;
-            padding-top: 5px;
-        }
-
-        .GA2WAMDBOR {
-            font-size: 10px;
-            color: #a7a7a7;
-            line-height: 32px;
-            padding-left: 10px;
-        }
-
-        .GA2WAMDBKR {
-            font-weight: 600;
-            padding-right: 5px;
-            font-size: 14px;
-            line-height: 22px;
-            color: #ecf0f1;
-        }
-
-        .GA2WAMDBIR {
-            right: 16px;
-        }
-
-        .GA2WAMDBMR {
-            margin-left: 5px;
-            color: #fff;
-        }
-
-        .GA2WAMDBNR {
-            padding-left: 10px;
-        }
-
-        .GA2WAMDBNR input {
-            border-radius: 20px;
-        }
-
-        .GA2WAMDBJR {
-            width: 14px;
-            height: 20px;
-            margin-top: -4px;
-            padding-left: 4px;
-            padding-right: 5px;
-        }
-
-        .GA2WAMDBFR {
-            padding-top: 20px;
-            padding-bottom: 20px;
-            text-align: center;
-        }
-
-        .GA2WAMDBGR {
-            color: #fff;
-        }</style>
-    <style>
-        .GA2WAMDBGT {
-            outline: 0;
-        }
-
-        .GA2WAMDBOEB {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            min-width: 100px;
-        }
-
-        .GA2WAMDBPEB {
-            margin-top: 2px;
-        }</style>
+        <title> Dimon :: Dashboard </title>
 </head>
 <body>
-<noscript>
-    <div style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
-        Your web browser must have JavaScript enabled
-        in order for this application to display correctly.
-    </div>
-</noscript>
-<div class="gwt-PopupPanel" style="z-index: 9999; position: absolute; left: 0; top: 398px; overflow: visible;">
-    <div class="popupContent">
-        <table cellspacing="5" cellpadding="0" class="growl" style="width: 100%;">
-            <tbody>
-            <tr></tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<div tabindex="0" class="dashboard-menu menu-on-right" id="side-nav">
-    <div>
-        <a class="dashboard-menu-anchor menu" style="display: block;" href="{{ url_for('vendor') }}">Data Sources</a>
-        <a class="dashboard-menu-anchor menu" style="display: block;" href="{{ url_for('diagnostic') }}">Diagnostic</a>
-        <a class="dashboard-menu-anchor menu" style="display: block;" href="{{ url_for('backup') }}">Backup / Restore</a>
-        <a class="dashboard-menu-anchor menu" style="display: block;" href="{{ url_for('setting') }}">Settings</a>
-    </div>
-</div>
-<div>
-    <div class="banner-top" aria-hidden="true" style="display: none;"></div>
-    <div class="banner" style="display: block;">
-        <table cellspacing="0" cellpadding="0" style="width: 100%;">
-            <tbody>
-            <tr>
-                <td align="left" style="vertical-align: middle;">
-                    <div class="gwt-HTML" aria-hidden="true" style="width: 20px; display: none;"></div>
-                </td>
-                <td align="left" style="vertical-align: middle;">
-                    <div tabindex="0" class="menu-button" aria-hidden="true" style="display: none;"
-                         data-original-title="Menu">
-                        <label>
-                            <input type="text" tabindex="-1" role="presentation"
-                                   style="opacity: 0; height: 1px; width: 1px; z-index: -1; overflow: hidden; position: absolute;">
-                        </label>
-                        <i class="icon-list"></i>
-                    </div>
-                </td>
-                <td align="left" style="vertical-align: middle;">
-                    <div class="gwt-HTML" aria-hidden="true" style="width: 10px; display: none;"></div>
-                </td>
-                <td align="left" style="vertical-align: middle;">
-                    <img class="banner-logo"
-                         src="{{ url_for('static', filename='logo.png') }}" alt="logo"></td>
-                <td align="left" style="vertical-align: middle;"><a href="javascript:" class="btn btn-dashboard-banner"
-                                                                    aria-hidden="true"
-                                                                    style="width: 60px; display: none;"
-                                                                    data-original-title="Back to dashboard"><i></i> «
-                    Back </a></td>
-                <td align="left" style="vertical-align: middle;">
-                    <div tabindex="0">
-                        <label>
-                            <input type="text" tabindex="-1" role="presentation"
-                                   style="opacity: 0; height: 1px; width: 1px; z-index: -1; overflow: hidden; position: absolute;">
-                        </label>
-                        <table cellspacing="0" cellpadding="0" class="dashboard-link">
-                            <tbody>
-                            <tr></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </td>
-                <td align="left" style="vertical-align: middle;"><a href="javascript:" class="btn btn-dashboard-banner"
-                                                                    aria-hidden="true" style="display: none;"
-                                                                    data-original-title="Unlock dashboard"><i></i></a>
-                </td>
-                <td align="left" width="100%" style="vertical-align: middle;">
-                    <div class="dashboard-header ellipses" style="width: 100%; max-width: 756px;"></div>
-                </td>
-                <td align="left" style="vertical-align: middle;"><a href="javascript:" class="btn btn-dashboard-banner"
-                                                                    aria-hidden="true" style="display: none;"><i></i>
-                    Update </a></td>
-                <td align="left" style="vertical-align: middle;"><a href="javascript:"
-                                                                    class="btn btn-dashboard-banner-dropdown dropdown-popup-menu-button"
-                                                                    aria-hidden="true"
-                                                                    style="width: 80px; display: none;"><i
-                        class="icon-gear"></i> Options <span class="caret"
-                                                             style="margin-top: 18px; border-top: 4px solid rgb(255, 255, 255);"></span></a>
-                </td>
-                <td align="left" style="vertical-align: middle;" onclick="userPopUp()">
-                    <a href="javascript:"
-                       class="btn btn-dashboard-banner-dropdown ellipses dropdown-popup-menu-button active"
-                       style="width: 100px;"><i class="icon-user"></i> {{ username }}
-                        <span class="caret" style="margin-top: 18px; border-top: 4px solid rgb(255, 255, 255);"></span>
-                    </a>
-                </td>
-                <td align="left" style="vertical-align: middle;">
-                    <div class="gwt-HTML" style="width: 20px;"></div>
-                </td>
-                <td align="left" style="vertical-align: middle;" onclick="openSideNav()">
-                    <div tabindex="0" class="menu-button" data-original-title="Menu">
-                        <label>
-                            <input type="text" tabindex="-1"
-                                   role="presentation"
-                                   style="opacity: 0; height: 1px; width: 1px; z-index: -1; overflow: hidden; position: absolute;">
-                        </label>
-                        <i class="icon-list"></i></div>
-                </td>
-                <td align="left" style="vertical-align: middle;" onclick="openSideNav()">
-                    <div class="gwt-HTML" style="width: 20px;"></div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div id="gwt-uid-2" class="dashboard-content menu-on-right"
-         style="overflow: auto; position: relative; zoom: 1; display: block; width: 100%; height: 35px;">
-        <div style="position: relative; zoom: 1;"></div>
-    </div>
+    <div class="wrapper">
+    <!-- Sidebar -->
+        <nav id="sidebar">
+            <div id="dismiss">
+                <i class="fa fa-arrow-left" style="margin-top: 10px;"></i>
+            </div>
+            <div class="sidebar-header">
+                <h3>Menu</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="#">Dashboard</a>
+                </li>
+                {% if role == 'admin' %}
+                    <li>
+                        <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Users</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li>
+                                <a href="#">Add User</a>
+                            </li>
+                            <li>
+                                <a href="#">View Users</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Logs</a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="{{ url_for('logout') }}">Sign Out</a>
+                </li>
+            </ul>
+        </nav>
 
-    <div style="margin-left: 15px">
-        {% block content %}
-        {% endblock %}
-    </div>
-</div>
-<div class="dropdown-popup-arrow-up display-none" id="userPopUpArrow"
-     style="position: fixed; left: calc(100vw - 90px); top: 40px;"></div>
-<div class="dropdown-popup dropdown-popup-down display-none" id="userPopUp"
-     style="visibility: visible; overflow: visible; position: fixed; left: calc(100vw - 267px); top: 46px;">
-    <div class="popupContent">
-        <div class="dropdown-popup-menu">
-            <a class="gwt-Anchor" href="{{ url_for('add_configurations') }}" style="display: block;">Configuration</a>
-            <div class="divider" style="display: block;"></div>
-            <a class="gwt-Anchor" href="#about-modal" onclick="userPopUp()" style="display: block;">About</a>
-            <a class="gwt-Anchor" href="#help-modal" onclick="userPopUp()" style="display: block;">Help</a>
-            <div class="divider" style="display: block;"></div>
-            <a class="gwt-Anchor" href="{{ url_for('logout') }}" style="display: block;">Sign Out</a>
+        <!-- Page Content -->
+        <div id="content">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <img class="banner-logo"
+                             src="{{ url_for('static', filename='logo.png') }}" alt="logo" style=" height: 60px !important;">
+                    </div>
+                    <div class="navbar-header" style="margin-left: 31%; margin-top: 8px;">
+                        <button type="button" id="golive" class="btn navbar-btn" style="background-colour: #4c4c4c;">
+                            <i class="fa fa-video-camera" aria-hidden="true"></i>
+                            <span>Go Live</span>
+                        </button>
+                    </div>
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" style="float: right; margin-top: 8px;">
+                        <button type="button" id="sidebarCollapse" class="btn navbar-btn" style="background-colour: #4c4c4c;">
+                            <i class="glyphicon glyphicon-align-left"></i>
+                            <span>{{ username }}</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
         </div>
     </div>
-</div>
 
-<script>
-    function openSideNav() {
-        document.getElementById('side-nav').classList.toggle('open');
-        document.getElementById('userPopUpArrow').classList.add('display-none');
-        document.getElementById('userPopUp').classList.add('display-none');
-    }
+    <div class="overlay"></div>
 
-    function userPopUp() {
-        document.getElementById('side-nav').classList.remove('open');
-        document.getElementById('userPopUpArrow').classList.toggle('display-none');
-        document.getElementById('userPopUp').classList.toggle('display-none');
-    }
-</script>
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+        <!-- Bootstrap Js CDN -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- jQuery Custom Scroller CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
-{% include "about.html" %}
-{% include "help.html" %}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#sidebar").mCustomScrollbar({
+                    theme: "minimal"
+                });
 
-</body>
+                $('#dismiss, .overlay').on('click', function () {
+                    $('#sidebar').removeClass('active');
+                    $('.overlay').fadeOut();
+                });
+
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').addClass('active');
+                    $('.overlay').fadeIn();
+                    $('.collapse.in').toggleClass('in');
+                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+                });
+            });
+        </script>
+    </body>
 </html>
