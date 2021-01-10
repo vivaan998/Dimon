@@ -37,7 +37,7 @@ def get_users():
     logging.info('Running fetch users...')
     if 'user_name' in session:
         users = select_query("SELECT * FROM users where role='user'")
-        return render_template('users.html', username=session['user_name'], users=users)
+        return render_template('users.html', username=session['user_name'], users=users, role=session['role'])
     else:
         return render_template('index.html', unauthorized=True)
 
@@ -45,19 +45,24 @@ def get_users():
 def add_user(data):
     logging.info('Running add users...')
     try:
-        user = query_execute("INSERT INTO users email=?, password=?, role=?, display_name=?,created_timestamp=?",
-                             (
-                                 data['email'],
-                                 generate_password_hash(data['password']),
-                                 data['role'],
-                                 data['display_name'],
-                                 data['created_timestamp']
-                             )
-                             )
-        if user:
+        email = select_query("SELECT * FROM users where email='" + data['email'] + "'")
+        if email:
             return jsonify({
-                'message': 'User created successfully'
-            }), 200
+                'message': 'Email Already Exists'
+            }), 400
+        else:
+            user = query_execute("INSERT INTO users (email, password, role, display_name) values (?,?,?,?)",
+                                 (
+                                     data['email'],
+                                     generate_password_hash(data['password']),
+                                     data['role'],
+                                     data['display_name'],
+                                 )
+                                 )
+            if user:
+                return jsonify({
+                    'message': 'User created successfully'
+                }), 200
     except Exception as e:
         logging.error('Failed to login. Message: %s', e)
         return jsonify({
@@ -72,14 +77,12 @@ def update_user(data):
             return jsonify({
                 'message': 'Id not present'
             }), 400
-        user = query_execute("UPDATE users SET email=?, password=?, role=?, display_name=?,created_timestamp=?"
+        user = query_execute("UPDATE users SET (email, password, display_name) values(?,?,?)"
                              "WHERE id=" + data['id'],
                              (
                                  data['email'],
                                  generate_password_hash(data['password']),
-                                 data['role'],
                                  data['display_name'],
-                                 data['created_timestamp']
                              )
                              )
         if user:

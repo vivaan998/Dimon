@@ -1,6 +1,7 @@
 import logging
 import os
 import sqlite3
+import traceback
 import sys
 
 module_directory = os.path.dirname(os.path.realpath(__file__))
@@ -10,7 +11,7 @@ print(module_directory)
 
 def connection():
     try:
-        return sqlite3.connect(module_directory + "/dimon.db")
+        return sqlite3.connect(module_directory + "/dimon.db", isolation_level=None)
     except Exception as e:
         logging.error("Failed to connect database: %s", e)
         return False
@@ -69,6 +70,7 @@ def query_execute(query, data=None):
         return True
 
     except Exception as e:
+        traceback.print_exc()
         logging.error("Failed execute query: %s", e)
         return False
 

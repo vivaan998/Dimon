@@ -1,0 +1,133 @@
+{% extends 'dashboard.html' %}
+{% block head %}
+<title>Users</title>
+<link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables/dataTables.bootstrap4.min.css') }}">
+{% endblock %}
+
+{% block content %}
+    <!-- Begin Page Content -->
+
+        <div class="navbar">
+            <div class="container-fluid">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                      <h3 class="m-0 font-weight-bold text-primary">Users</h3>
+                        <a class="btn btn-primary" href="{{ url_for('users_add') }}" style="float: right;">
+                            <i class="fa fa-plus"><span>Add User</span></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="navbar">
+        <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <div class="table-responsive" style="overflow: hidden;">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>CustomerID</th>
+                      <th>Name</th>
+                      <th>Role</th>
+                      <th>Email</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% if users %}
+                        {% for user in users %}
+                          <tr>
+                            <td><a class="btn-link" href="/">{{ user.id }}</a></td>
+                            <td class="">{{ user.display_name }}</td>
+                            <td>{{ user.role }}</td>
+                            <td>{{ user.email }}</td>
+                            <td align="center">
+                                <button class="btn btn-primary edit" data-field="{{ user.id }}"><i class="fa fa-edit"></i></button>
+                                <button class="btn btn-danger delete" data-field="{{ user.id }}"><i class="fa fa-trash-o"></i></button>
+                            </td>
+                          </tr>
+                  {% else %}
+                      <tr>
+                        <td colspan="5">No data</td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+                  </tbody>
+                </table>
+            </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <br><br>
+    <div class="alert alert-error" id="alert" aria-hidden="true" style="display: none; background-color: #ff0c0c; margin-left: 13%; max-width: 1000px;">
+        <span></span>
+    </div>
+    <div class="alert alert-success" id="success" aria-hidden="true" style="display: none; background-color: green; margin-left: 13%; max-width: 1000px;">
+        <span></span>
+    </div>
+
+{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{{ url_for('static', filename='css/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='css/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+        } );
+
+    $(".delete").on('click', function(){
+        let id = $(this).attr('data-field');
+        $.ajax({
+            type: 'DELETE',
+            url: "{{ url_for('users') }}",
+            data: JSON.stringify({
+                id: id,
+            }),
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (data) {
+                document.getElementById('success').style.display = 'block';
+                document.getElementById('success').innerHTML = '<span style="color:white;">' + data.message + '</span>';
+                setTimeout(function(){
+                    window.location.href = '/users';
+                },2000);
+            },
+            error: function (error) {
+                document.getElementById('alert').style.display = 'block';
+                document.getElementById('alert').innerHTML = '<span style="color:white;">' + error?.responseJSON?.message + '</span>';
+            }
+        });
+    });
+
+    $(".edit").on('click', function(){
+        let id = $(this).attr('data-field');
+        $.ajax({
+            type: 'PUT',
+            url: "{{ url_for('users_add') }}",
+            data: JSON.stringify({
+                id: id,
+            }),
+            contentType: 'application/json',
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                document.getElementById('alert').style.display = 'block';
+                document.getElementById('alert').innerHTML = '<span style="color:white;">' + error?.responseJSON?.message + '</span>';
+            }
+        });
+    });
+
+</script>
+{% endblock %}

@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, session, redirect, url_for
 
 from config.accounts import login_service, add_user, get_users, update_user, delete_user
 from config.log_data import get_logs
+from data.db import select_query
 
 module_directory = os.path.dirname(os.path.realpath(__file__))
 
@@ -46,17 +47,30 @@ def dashboard():
         return render_template('index.html', unauthorized=True)
 
 
-@application.route('/users', methods=['POST', 'GET', 'PUT', 'DELETE'])
+@application.route('/users', methods=['GET', 'PUT', 'DELETE'])
 def users():
+    print(request.method)
     if 'user_name' and 'role' in session and session['role'] == 'admin':
-        if request.method == 'POST':
-            return add_user(request.json)
-        elif request.method == 'GET':
+        if request.method == 'GET':
             return get_users()
         elif request.method == 'PUT':
             return update_user(request.json)
         else:
             return delete_user(request.json)
+    else:
+        return render_template('index.html', unauthorized=True)
+
+
+@application.route('/users_add', methods=['GET', 'POST', 'PUT'])
+def users_add():
+    if 'user_name' and 'role' in session and session['role'] == 'admin':
+        if request.method == 'POST':
+            return add_user(request.json)
+        if request.method == 'PUT':
+            user = select_query("SELECT * FROM users where id=" + request.json['id'])
+            return render_template('add_user.html', username=session['user_name'], role=session['role'], user=user)
+        else:
+            return render_template('add_user.html', username=session['user_name'], role=session['role'])
     else:
         return render_template('index.html', unauthorized=True)
 

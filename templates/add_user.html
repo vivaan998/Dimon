@@ -1,0 +1,199 @@
+{% extends 'dashboard.html' %}
+{% block head %}
+<title>Users</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+    <!-- Begin Page Content -->
+        <div class="navbar">
+            <div class="container-fluid">
+                <div class="card shadow mb-4">
+                    <div class="card-header">
+                        {% if user %}
+                            <input type="hidden" id="user-id" data-field="{{ user.id }}">
+                            <h3 class="m-0 font-weight-bold text-primary">Update User</h3>
+                        {% else %}
+                            <h3 class="m-0 font-weight-bold text-primary">Add User</h3>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navbar">
+        <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <div class="form-horizontal">
+                <div class="form-group">
+                    {% if user %}
+                        <label class="sr-only" for="UName">Name</label>
+                        <input type="text" class="form-control" id="UName" placeholder="Enter Name" value="{{ user.display_name }}">
+                    {% else %}
+                        <label class="sr-only" for="Name">Name</label>
+                        <input type="text" class="form-control" id="Name" placeholder="Enter Name">
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {% if user %}
+                        <label class="sr-only" for="UPassword">Password</label>
+                        <input type="password" class="form-control" id="UPassword" placeholder="Enter Password">
+                    {% else %}
+                        <label class="sr-only" for="Password">Password</label>
+                        <input type="password" class="form-control" id="Password" placeholder="Enter Password">
+                    {% endif %}
+
+                </div>
+                <div class="form-group">
+                    {% if user %}
+                        <label class="sr-only" for="UPassword1">Confirm Password</label>
+                        <input type="password" class="form-control" id="UPassword1" placeholder="Re-enter Password">
+                    {% else %}
+                        <label class="sr-only" for="Password1">Confirm Password</label>
+                        <input type="password" class="form-control" id="Password1" placeholder="Re-enter Password">
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    {% if user %}
+                        <label class="sr-only" for="UEmail">Email</label>
+                        <input type="email" class="form-control" id="UEmail" placeholder="Enter Email">
+                    {% else %}
+                        <label class="sr-only" for="Email">Email</label>
+                        <input type="email" class="form-control" id="Email" placeholder="Enter Email">
+                    {% endif %}
+                </div>
+                  {% if user %}
+                    <button type="submit" class="btn btn-primary" id="edit" onclick="edit()" style="margin-left: 35%; width: 500px;">Update</button>
+                  {% else %}
+                    <button type="submit" class="btn btn-primary" id="save" onclick="save()" style="margin-left: 35%; width: 500px;">Submit</button>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+<br><br>
+    <div class="alert alert-error" id="alert" aria-hidden="true" style="display: none; background-color: #ff0c0c; margin-left: 13%; max-width: 1000px;">
+        <span></span>
+    </div>
+    <div class="alert alert-success" id="success" aria-hidden="true" style="display: none; background-color: green; margin-left: 13%; max-width: 1000px;">
+        <span></span>
+    </div>
+
+{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+        function validate(value){
+            if (value){
+                const name = document.getElementById("Name").value;
+                const email = document.getElementById("Email").value;
+                const password = document.getElementById("Password").value;
+                const password1 = document.getElementById("Password1").value;
+               }
+              else{
+                const name = document.getElementById("UName").value;
+                const email = document.getElementById("UEmail").value;
+                const password = document.getElementById("UPassword").value;
+                const password1 = document.getElementById("UPassword1").value;
+               }
+                let isValid = true;
+                if (!name || name.trim() === '') {
+                    document.getElementById('alert').style.display = 'block';
+                    document.getElementById('alert').innerHTML = '<span style="color:white;">Name Required</span>';
+                    isValid = false;
+                }
+                if (!password || password.trim() === '' || !password1 || password1.trim() === '') {
+                    document.getElementById('alert').style.display = 'block';
+                    document.getElementById('alert').innerHTML = '<span style="color:white;">Password Required</span>';
+                    isValid = false;
+                }
+                if (!email || email.trim() === '') {
+                    document.getElementById('alert').style.display = 'block';
+                    document.getElementById('alert').innerHTML = '<span style="color:white;">Email Required</span>';
+                    isValid = false;
+                }
+
+                if (password != password1){
+                    document.getElementById('alert').style.display = 'block';
+                    document.getElementById('alert').innerHTML = "<span style='color:white;'>Passwords didn't match</span>";
+                    isValid = false;
+                }
+            return isValid;
+        }
+
+        function save(){
+            const name = document.getElementById("Name").value;
+            const email = document.getElementById("Email").value;
+            const password = document.getElementById("Password").value;
+            const password1 = document.getElementById("Password1").value;
+            if (validate(True)){
+                    $.ajax({
+                    type: 'POST',
+                    url: "{{ url_for('users_add') }}",
+                    data: JSON.stringify({
+                        display_name: name,
+                        email: email,
+                        password: password,
+                        role: 'user',
+                    }),
+                    contentType: 'application/json',
+                    dataType: "json",
+                    beforeSend: function(){
+                        document.getElementById('alert').style.display = 'none';
+                        document.getElementById('success').style.display = 'none';
+                    },
+                    success: function (data) {
+                        document.getElementById('success').style.display = 'block';
+                        document.getElementById('success').innerHTML = '<span style="color:white;">' + data.message + '</span>';
+                    },
+                    error: function (error) {
+                        document.getElementById('alert').style.display = 'block';
+                        document.getElementById('alert').innerHTML = '<span style="color:white;">' + error?.responseJSON?.message + '</span>';
+                    }
+                });
+            }
+        }
+
+        function edit(){
+            const id = document.getElementById("user-id").value;
+            const name = document.getElementById("UName").value;
+            const email = document.getElementById("UEmail").value;
+            const password = document.getElementById("UPassword").value;
+            const password1 = document.getElementById("UPassword1").value;
+            if (validate(False)){
+                    $.ajax({
+                    type: 'POST',
+                    url: "{{ url_for('users') }}",
+                    data: JSON.stringify({
+                        id: ,
+                        display_name: name,
+                        email: email,
+                        password: password,
+                        role: 'user',
+                    }),
+                    contentType: 'application/json',
+                    dataType: "json",
+                    beforeSend: function(){
+                        document.getElementById('alert').style.display = 'none';
+                        document.getElementById('success').style.display = 'none';
+                    },
+                    success: function (data) {
+                        document.getElementById('success').style.display = 'block';
+                        document.getElementById('success').innerHTML = '<span style="color:white;">' + data.message + '</span>';
+                    },
+                    error: function (error) {
+                        document.getElementById('alert').style.display = 'block';
+                        document.getElementById('alert').innerHTML = '<span style="color:white;">' + error?.responseJSON?.message + '</span>';
+                    }
+                });
+            }
+        }
+</script>
+{% endblock %}

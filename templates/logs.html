@@ -1,0 +1,75 @@
+{% extends 'dashboard.html' %}
+{% block head %}
+<title>Logs</title>
+<link href="{{ url_for('static', filename='css/sb-admin-2.min.css') }}" rel="stylesheet">
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/datatables/dataTables.bootstrap4.min.css') }}">
+{% endblock %}
+
+{% block content %}
+    <!-- Begin Page Content -->
+
+        <div class="navbar">
+            <div class="container-fluid">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                      <h3 class="m-0 font-weight-bold text-primary">Logs</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="navbar">
+        <div class="container-fluid">
+          <!-- DataTales Example -->
+          <div class="card shadow mb-4">
+            <div class="card-body">
+              <div class="table-responsive" style="overflow: hidden;">
+                  <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Class</th>
+                      <th>Image</th>
+                      <th>Dimensions</th>
+                      <th>Time</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% if logs %}
+                        {% for log in logs %}
+                          <tr>
+                            <td><a class="btn-link" href="/">{{ log.id }}</a></td>
+                            <td class="">{{ log.log_class }}</td>
+                            <td>{{ log.image }}</td>
+                            <td>{{ log.dimensions }}</td>
+                            <td>{{ log.created_timestamp }}</td>
+                          </tr>
+                  {% else %}
+                      <tr>
+                        <td colspan="5">No data</td>
+                      </tr>
+                    {% endfor %}
+                  {% endif %}
+                  </tbody>
+                </table>
+            </div>
+            </div>
+          </div>
+        </div>
+</div>
+
+{% endblock %}
+{% block script %}
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="{{ url_for('static', filename='css/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ url_for('static', filename='css/datatables/dataTables.bootstrap4.min.js') }}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+        } );
+</script>
+{% endblock %}
