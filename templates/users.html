@@ -111,22 +111,7 @@
 
     $(".edit").on('click', function(){
         let id = $(this).attr('data-field');
-        $.ajax({
-            type: 'PUT',
-            url: "{{ url_for('users_add') }}",
-            data: JSON.stringify({
-                id: id,
-            }),
-            contentType: 'application/json',
-            dataType: "json",
-            success: function (data) {
-                console.log(data);
-            },
-            error: function (error) {
-                document.getElementById('alert').style.display = 'block';
-                document.getElementById('alert').innerHTML = '<span style="color:white;">' + error?.responseJSON?.message + '</span>';
-            }
-        });
+        window.location.href = '/users_add?id=' + id;
     });
 
 </script>

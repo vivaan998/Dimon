@@ -64,7 +64,7 @@ def add_user(data):
                     'message': 'User created successfully'
                 }), 200
     except Exception as e:
-        logging.error('Failed to login. Message: %s', e)
+        logging.error('Failed to add user. Message: %s', e)
         return jsonify({
             'message': 'Something went wrong. Contact support for assistance.'
         }), 500
@@ -73,24 +73,21 @@ def add_user(data):
 def update_user(data):
     logging.info('Running update users...')
     try:
-        if 'id' not in data:
-            return jsonify({
-                'message': 'Id not present'
-            }), 400
-        user = query_execute("UPDATE users SET (email, password, display_name) values(?,?,?)"
-                             "WHERE id=" + data['id'],
-                             (
-                                 data['email'],
-                                 generate_password_hash(data['password']),
-                                 data['display_name'],
-                             )
-                             )
-        if user:
-            return jsonify({
-                'message': 'User updated successfully'
-            }), 200
+        if (data['password'] != ''):
+            query = "UPDATE users SET email=?, password=?, display_name=? WHERE id=" + data['id']
+            value = (data['email'], generate_password_hash(data['password']), data['display_name'])
+            
+        else:
+            query = "UPDATE users SET email=?, display_name=? WHERE id=" + data['id']
+            value = (data['email'], data['display_name'])
+            user = query_execute(query, data=value)
+           
+        user = query_execute(query, data=value)
+        return jsonify({
+            'message': 'User updated successfully'
+        }), 200  
     except Exception as e:
-        logging.error('Failed to login. Message: %s', e)
+        logging.error('Failed to update. Message: %s', e)
         return jsonify({
             'message': 'Something went wrong. Contact support for assistance.'
         }), 500
@@ -109,7 +106,7 @@ def delete_user(data):
                 'message': 'User deleted successfully'
             }), 200
     except Exception as e:
-        logging.error('Failed to login. Message: %s', e)
+        logging.error('Failed to delete user. Message: %s', e)
         return jsonify({
             'message': 'Something went wrong. Contact support for assistance.'
         }), 500

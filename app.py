@@ -49,7 +49,6 @@ def dashboard():
 
 @application.route('/users', methods=['GET', 'PUT', 'DELETE'])
 def users():
-    print(request.method)
     if 'user_name' and 'role' in session and session['role'] == 'admin':
         if request.method == 'GET':
             return get_users()
@@ -61,14 +60,14 @@ def users():
         return render_template('index.html', unauthorized=True)
 
 
-@application.route('/users_add', methods=['GET', 'POST', 'PUT'])
+@application.route('/users_add', methods=['GET', 'POST'])
 def users_add():
     if 'user_name' and 'role' in session and session['role'] == 'admin':
         if request.method == 'POST':
             return add_user(request.json)
-        if request.method == 'PUT':
-            user = select_query("SELECT * FROM users where id=" + request.json['id'])
-            return render_template('add_user.html', username=session['user_name'], role=session['role'], user=user)
+        if 'id' in request.args:
+            user = select_query("SELECT * FROM users where id=" + request.args['id'])
+            return render_template('add_user.html', username=session['user_name'], role=session['role'], user=user[0])
         else:
             return render_template('add_user.html', username=session['user_name'], role=session['role'])
     else:

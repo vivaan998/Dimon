@@ -57,7 +57,7 @@
                 <div class="form-group">
                     {% if user %}
                         <label class="sr-only" for="UEmail">Email</label>
-                        <input type="email" class="form-control" id="UEmail" placeholder="Enter Email">
+                        <input type="email" class="form-control" id="UEmail" placeholder="Enter Email" value="{{ user.email }}">
                     {% else %}
                         <label class="sr-only" for="Email">Email</label>
                         <input type="email" class="form-control" id="Email" placeholder="Enter Email">
@@ -90,28 +90,16 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script type="text/javascript">
 
-        function validate(value){
-            if (value){
+        function validate(){
                 const name = document.getElementById("Name").value;
                 const email = document.getElementById("Email").value;
                 const password = document.getElementById("Password").value;
                 const password1 = document.getElementById("Password1").value;
-               }
-              else{
-                const name = document.getElementById("UName").value;
-                const email = document.getElementById("UEmail").value;
-                const password = document.getElementById("UPassword").value;
-                const password1 = document.getElementById("UPassword1").value;
-               }
+
                 let isValid = true;
                 if (!name || name.trim() === '') {
                     document.getElementById('alert').style.display = 'block';
                     document.getElementById('alert').innerHTML = '<span style="color:white;">Name Required</span>';
-                    isValid = false;
-                }
-                if (!password || password.trim() === '' || !password1 || password1.trim() === '') {
-                    document.getElementById('alert').style.display = 'block';
-                    document.getElementById('alert').innerHTML = '<span style="color:white;">Password Required</span>';
                     isValid = false;
                 }
                 if (!email || email.trim() === '') {
@@ -119,7 +107,40 @@
                     document.getElementById('alert').innerHTML = '<span style="color:white;">Email Required</span>';
                     isValid = false;
                 }
+                
+                if (!password || password.trim() === '' || !password1 || password1.trim() === '') {
+                    document.getElementById('alert').style.display = 'block';
+                    document.getElementById('alert').innerHTML = '<span style="color:white;">Password Required</span>';
+                    isValid = false;
+                }
+                
+                if (password != password1){
+                    document.getElementById('alert').style.display = 'block';
+                    document.getElementById('alert').innerHTML = "<span style='color:white;'>Passwords didn't match</span>";
+                    isValid = false;
+                }
+            return isValid;
+        }
 
+        function edit_validate(){
+                const name = document.getElementById("UName").value;
+                const email = document.getElementById("UEmail").value;
+                const password = document.getElementById("UPassword").value;
+                console.log(password);
+                const password1 = document.getElementById("UPassword1").value;
+
+                let isValid = true;
+                if (!name || name.trim() === '') {
+                    document.getElementById('alert').style.display = 'block';
+                    document.getElementById('alert').innerHTML = '<span style="color:white;">Name Required</span>';
+                    isValid = false;
+                }
+                if (!email || email.trim() === '') {
+                    document.getElementById('alert').style.display = 'block';
+                    document.getElementById('alert').innerHTML = '<span style="color:white;">Email Required</span>';
+                    isValid = false;
+                }
+                
                 if (password != password1){
                     document.getElementById('alert').style.display = 'block';
                     document.getElementById('alert').innerHTML = "<span style='color:white;'>Passwords didn't match</span>";
@@ -133,7 +154,7 @@
             const email = document.getElementById("Email").value;
             const password = document.getElementById("Password").value;
             const password1 = document.getElementById("Password1").value;
-            if (validate(True)){
+            if (validate()){
                     $.ajax({
                     type: 'POST',
                     url: "{{ url_for('users_add') }}",
@@ -162,17 +183,17 @@
         }
 
         function edit(){
-            const id = document.getElementById("user-id").value;
+            const id = $("#user-id").attr('data-field');
             const name = document.getElementById("UName").value;
             const email = document.getElementById("UEmail").value;
             const password = document.getElementById("UPassword").value;
             const password1 = document.getElementById("UPassword1").value;
-            if (validate(False)){
+            if (edit_validate()){
                     $.ajax({
-                    type: 'POST',
+                    type: 'PUT',
                     url: "{{ url_for('users') }}",
                     data: JSON.stringify({
-                        id: ,
+                        id: id,
                         display_name: name,
                         email: email,
                         password: password,
