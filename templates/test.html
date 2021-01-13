@@ -1,0 +1,73 @@
+<html lang="en">
+<head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style3.css') }}">
+        <!-- Scrollbar Custom CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+        <title> Dimon :: Dashboard </title>
+        {% block header %}
+        {% endblock %}
+</head>
+<body>
+    <h1>STREAMING</h1>
+    <div style="width: 50%; height: 50%; float:left; position: relative;">
+        <img src="{{ url_for('video_feed') }}"><br>
+        <button id="first_camera"style="background-color: #1cc88a; color: black">Capture for first camera</button>
+    </div>
+    <div style="width: 50%; height: 50%; float:right;">
+        <img src="{{ url_for('secondary_feed') }}" > <br>
+        <button id="second_camera" style="background-color: #1cc88a; color: black">Capture for second camera</button>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script>
+ 
+        $("#first_camera").on('click', function(){
+            $.ajax({
+                type: 'POST',
+                url: "{{ url_for('first_capture') }}",
+                data: {
+                    metricValue: '20',
+                },
+                success: function (data) {
+                    alert('Successfuly Captured from first camera');
+                    console.log('>>>> FRAME CAPTURE FROM FIRST CAMERA <<<<')
+                    console.log(data)
+                },
+                error: function (error) {
+                   alert('frame capture failed from first camera');
+                }
+            });
+        });
+        $("#second_camera").on('click', function(){
+            $.ajax({
+                type: 'POST',
+                url: "{{ url_for('second_capture') }}",
+                data: {
+                    metricValue: '420',
+                },
+                success: function (data) {
+                    alert('Successfuly Captured from second camera');
+                    console.log('>>>> FRAME CAPTURE FROM SECOND CAMERA <<<<')
+                    console.log(data)
+                },
+                error: function (error) {
+                   alert('frame capture failed from second camera');
+                }
+            });
+        });
+    </script>
+    </body>
+</html>
