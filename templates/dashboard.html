@@ -97,6 +97,10 @@
                     theme: "minimal"
                 });
 
+                $("#golive").on('click', function(){
+                    window.location.href = '/stream';
+                });
+
                 $('#dismiss, .overlay').on('click', function () {
                     $('#sidebar').removeClass('active');
                     $('.overlay').fadeOut();

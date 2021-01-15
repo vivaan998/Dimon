@@ -1,0 +1,174 @@
+{% extends 'dashboard.html' %}
+{% block head %}
+<title>Live Stream</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+
+<!-- Begin Page Content -->
+    <div class="navbar">
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <div style="width: 50%; height: 70%; float:left; position: relative;">
+                        <img src="{{ url_for('video_feed') }}"><br>
+                    </div>
+                    <div style="margin-top:12%; margin-left: 63%; position: absolute;" class="form-group">
+                        <span>Top View</span>
+                        <input type="text" name="top_view" id="top_view" class="form-control"><br><br>
+                        <button type="submit" class="btn btn-primary" id="first_camera">Capture</button>
+                        <button type="reset" class="btn btn-danger" id="reset_top">Reset</button>
+                        <br><br>
+                        <div class="alert alert-error" id="alert_top" aria-hidden="true" style="display: none; background-color: #ff0c0c; margin-left: 13%; max-width: 1000px;">
+                            <span></span>
+                        </div>
+                        <div class="alert alert-success" id="success_top" aria-hidden="true" style="display: none; background-color: green; margin-left: 13%; max-width: 1000px;">
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="navbar">
+        <div class="container-fluid">
+            <div class="card shadow mb-4">
+                <div class="card-header">
+                    <div style="width: 50%; height: 70%; float:left; position: relative;">
+                        <img src="{{ url_for('secondary_feed') }}" > <br>
+                    </div>
+                    <div style="margin-top:12%; margin-left: 63%; position: absolute;" class="form-group">
+                        <span>Side View</span>
+                        <input type="text" name="side_view" id="side_view" class="form-control"><br><br>
+                        <button type="submit" class="btn btn-primary" id="second_camera">Capture</button>
+                        <button type="reset" class="btn btn-danger" id="reset_side">Reset</button>
+                        <br><br>
+                        <div class="alert alert-error" id="alert_side" aria-hidden="true" style="display: none; background-color: #ff0c0c; margin-left: 13%; max-width: 1000px;">
+                            <span></span>
+                        </div>
+                        <div class="alert alert-success" id="success_side" aria-hidden="true" style="display: none; background-color: green; margin-left: 13%; max-width: 1000px;">
+                            <span></span>
+                        </div
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.easing.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+    function validate(type){
+        if (type == 'top'){
+            const metric = document.getElementById("top_view").value;
+            var reg=/^[0-9]*[.]?[0-9]*$/;
+            let isValid = true;
+            if (!metric || metric.trim() === '' || !reg.test(metric)) {
+               document.getElementById('alert_top').style.display = 'block';
+               document.getElementById('alert_top').innerHTML = '<span style="color:white;">Metric should be numeric</span>';
+               isValid = false;
+              }
+           return isValid;
+         }
+         else{
+            const metric = document.getElementById("side_view").value;
+            var reg=/^[0-9]*[.]?[0-9]*$/;
+            let isValid = true;
+            if (!metric || metric.trim() === '' || !reg.test(metric)) {
+               document.getElementById('alert_side').style.display = 'block';
+               document.getElementById('alert_side').innerHTML = '<span style="color:white;">Metric should be numeric</span>';
+               isValid = false;
+              }
+            return isValid;
+           }
+      }
+
+        $("#first_camera").on('click', function(){
+            const top_view = document.getElementById("top_view").value;
+            if(validate('top')){
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ url_for('top_view_capture') }}",
+                    data: {
+                        metricValue: top_view,
+                    },
+                    beforeSend: function() {
+                        document.getElementById('success_top').style.display = 'none';
+                        document.getElementById('alert_top').style.display = 'none';
+                    },
+                    success: function (data) {
+                        document.getElementById('success_top').style.display = 'block';
+                        document.getElementById('success_top').innerHTML = '<span style="color:white;">Successfully captured top view</span>';
+                        setTimeout(function(){
+                            document.getElementById('success_top').style.display = 'none';
+                          }, 2000);
+                    },
+                    error: function (error) {
+                       document.getElementById('alert_top').style.display = 'block';
+                       document.getElementById('alert_top').innerHTML = '<span style="color:white;">Failed to capture</span>';
+                    }
+                });
+            }
+        });
+
+        $("#reset_top").on('click', function(){
+            document.getElementById("top_view").value = '';
+            document.getElementById('success_top').style.display = 'none';
+            document.getElementById('alert_top').style.display = 'none';
+        });
+
+        $("#top_view").on('focus', function(){
+             document.getElementById('success_top').style.display = 'none';
+             document.getElementById('alert_top').style.display = 'none';
+        });
+
+        $("#second_camera").on('click', function(){
+            const side_view = document.getElementById("side_view").value;
+            if(validate('side')){
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ url_for('side_view_capture') }}",
+                    data: {
+                        metricValue: side_view,
+                    },
+                    beforeSend: function() {
+                        document.getElementById('success_side').style.display = 'none';
+                        document.getElementById('alert_side').style.display = 'none';
+                    },
+                    success: function (data) {
+                        document.getElementById('success_side').style.display = 'block';
+                        document.getElementById('success_side').innerHTML = '<span style="color:white;">Successfully captured side view</span>';
+                        setTimeout(function(){
+                            document.getElementById('success_side').style.display = 'none';
+                          }, 2000);
+                    },
+                    error: function (error) {
+                       document.getElementById('alert_side').style.display = 'block';
+                       document.getElementById('alert_side').innerHTML = '<span style="color:white;">Failed to capture</span>';
+                    }
+                });
+            }
+        });
+
+        $("#reset_side").on('click', function(){
+            document.getElementById("side_view").value = '';
+            document.getElementById('success_side').style.display = 'none';
+            document.getElementById('alert_side').style.display = 'none';
+        });
+
+        $("#side_view").on('focus', function(){
+             document.getElementById('success_side').style.display = 'none';
+             document.getElementById('alert_side').style.display = 'none';
+        });
+
+    </script>
+{% endblock %}

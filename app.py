@@ -1,25 +1,20 @@
 import os
 import logging
-from datetime import timedelta
+import cv2
+
+from datetime import timedelta, datetime
 from flask import Flask, render_template, request, session, redirect, url_for, Response
 
 from config.accounts import login_service, add_user, get_users, update_user, delete_user
 from config.log_data import get_logs
-from config.streaming import gen_frames, genSecondary_frames, firstCapture, secondCapture
+from config.streaming import gen_frames, genSecondary_frames, firstCapture, secondCapture, main_execution
 from data.db import select_query
-import cv2
-
-
 
 module_directory = os.path.dirname(os.path.realpath(__file__))
 
 application = Flask(__name__)
 application.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
-
-
-camera = cv2.VideoCapture(0)
-camera2 = cv2.VideoCapture(1)
 
 @application.before_request
 def make_session_permanent():
@@ -55,46 +50,49 @@ def dashboard():
         return render_template('index.html', unauthorized=True)
 
 
-
-
-@application.route('/first_capture', methods=['POST'])
-def first_capture():
-    print('>>>> FRAME CAPTURE FROM FIRST CAMERA <<<<')
+@application.route('/top_view_capture', methods=['POST'])
+def top_view_capture():
     data = request.form['metricValue']
-    capture = firstCapture()        
-    print('Metric value - ', data)
-    print('First camera frame - ', capture)
-    cv2.imwrite('FirstCamCapture.jpg', capture)
-    return str(capture)
+    capture = firstCapture()
+    path = os.path.join(module_directory, 'Images/top_view/front-' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg')
+    cv2.imwrite(path, capture)
+    return main_execution(capture, data)
 
-@application.route('/second_capture', methods=['POST'])
-def second_capture():
-    print('>>>> FRAME CAPTURE FROM SECOND CAMERA <<<<')
+
+@application.route('/side_view_capture', methods=['POST'])
+def side_view_capture():
     data = request.form['metricValue']
-    capture = secondCapture()        
-    print('Metric value - ', data)
-    print('Second camera frame - ', capture)
-    cv2.imwrite('SecondCamCapture.jpg', capture)
-    return str(capture)
-
+    capture = secondCapture()
+    path = os.path.join(module_directory, 'Images/side_view/side-' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg')
+    cv2.imwrite(path, capture)
+    return main_execution(capture, data)
 
 
 @application.route('/video_feed')
 def video_feed():
-    return Response(gen_frames(camera), mimetype='multipart/x-mixed-replace; boundary=frame')
+    camera = cv2.VideoCapture(0)
+    if 'user_name' in session:
+        return Response(gen_frames(camera), mimetype='multipart/x-mixed-replace; boundary=frame')
+    else:
+        return render_template('index.html', unauthorized=True)
+
 
 @application.route('/secondary_feed')
 def secondary_feed():
-    return Response(genSecondary_frames(camera2), mimetype='multipart/x-mixed-replace; boundary=frame')
+    camera2 = cv2.VideoCapture(0)
+    if 'user_name' in session:
+        return Response(genSecondary_frames(camera2), mimetype='multipart/x-mixed-replace; boundary=frame')
+    else:
+        return render_template('index.html', unauthorized=True)
 
 
-
-@application.route('/test')
-def test():
-    print('Running Test...')
-    return render_template('test.html')
-
-
+@application.route('/stream')
+def stream():
+    if 'user_name' in session:
+        logging.info('Running stream...')
+        return render_template('streaming.html', username=session['user_name'], role=session['role'])
+    else:
+        return render_template('index.html', unauthorized=True)
 
 
 @application.route('/users', methods=['GET', 'PUT', 'DELETE'])
@@ -133,4 +131,4 @@ def logs():
 
 
 if __name__ == '__main__':
-    application.run(host='127.0.0.1', port=5000)
+    application.run(host='0.0.0.0', port=5000)
