@@ -73,19 +73,19 @@ def add_user(data):
 def update_user(data):
     logging.info('Running update users...')
     try:
-        if (data['password'] != ''):
+        if data['password'] != '':
             query = "UPDATE users SET email=?, password=?, display_name=? WHERE id=" + data['id']
             value = (data['email'], generate_password_hash(data['password']), data['display_name'])
             
         else:
             query = "UPDATE users SET email=?, display_name=? WHERE id=" + data['id']
             value = (data['email'], data['display_name'])
-            user = query_execute(query, data=value)
-           
+
         user = query_execute(query, data=value)
-        return jsonify({
-            'message': 'User updated successfully'
-        }), 200  
+        if user:
+            return jsonify({
+                'message': 'User updated successfully'
+            }), 200
     except Exception as e:
         logging.error('Failed to update. Message: %s', e)
         return jsonify({

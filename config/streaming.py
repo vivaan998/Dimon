@@ -1,4 +1,6 @@
 import cv2
+import logging
+from config.log_data import process_top_frame, process_side_frame
 
 
 def firstCapture():
@@ -33,7 +35,9 @@ def genSecondary_frames(camera2):
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
 
 
-def main_execution(view, metric):
-    print(view)
-    print(metric)
-    return 'captured'
+def main_execution(view, metric, view_type):
+    logging.info('Running main_execution...')
+    if view_type == 'top_view':
+        return process_top_frame(view, metric)
+    else:
+        return process_side_frame(view, metric)

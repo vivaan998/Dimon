@@ -106,11 +106,16 @@
                         document.getElementById('alert_top').style.display = 'none';
                     },
                     success: function (data) {
-                        document.getElementById('success_top').style.display = 'block';
-                        document.getElementById('success_top').innerHTML = '<span style="color:white;">Successfully captured top view</span>';
-                        setTimeout(function(){
-                            document.getElementById('success_top').style.display = 'none';
-                          }, 2000);
+                        if(data.message == 'Success'){
+                            document.getElementById('success_top').style.display = 'block';
+                            document.getElementById('success_top').innerHTML = '<span style="color:white;">Successfully captured top view</span>';
+                            setTimeout(function(){
+                                document.getElementById('success_top').style.display = 'none';
+                            }, 2000);
+                         }else{
+                            document.getElementById('alert_top').style.display = 'block';
+                            document.getElementById('alert_top').innerHTML = '<span>' + data.responseJSON.message + '</span>';
+                         }
                     },
                     error: function (error) {
                        document.getElementById('alert_top').style.display = 'block';
@@ -145,11 +150,16 @@
                         document.getElementById('alert_side').style.display = 'none';
                     },
                     success: function (data) {
-                        document.getElementById('success_side').style.display = 'block';
-                        document.getElementById('success_side').innerHTML = '<span style="color:white;">Successfully captured side view</span>';
-                        setTimeout(function(){
-                            document.getElementById('success_side').style.display = 'none';
-                          }, 2000);
+                        if(data.message == 'Success'){
+                            document.getElementById('success_side').style.display = 'block';
+                            document.getElementById('success_side').innerHTML = '<span style="color:white;">Successfully captured side view</span>';
+                            setTimeout(function(){
+                                document.getElementById('success_side').style.display = 'none';
+                              }, 2000);
+                         }else{
+                            document.getElementById('alert_side').style.display = 'block';
+                            document.getElementById('alert_side').innerHTML = '<span>' + data.responseJSON.message + '</span>';
+                         }
                     },
                     error: function (error) {
                        document.getElementById('alert_side').style.display = 'block';

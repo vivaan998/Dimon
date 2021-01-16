@@ -52,20 +52,12 @@ def dashboard():
 
 @application.route('/top_view_capture', methods=['POST'])
 def top_view_capture():
-    data = request.form['metricValue']
-    capture = firstCapture()
-    path = os.path.join(module_directory, 'Images/top_view/front-' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg')
-    cv2.imwrite(path, capture)
-    return main_execution(capture, data)
+    return main_execution(firstCapture(), request.form['metricValue'], 'top_view')
 
 
 @application.route('/side_view_capture', methods=['POST'])
 def side_view_capture():
-    data = request.form['metricValue']
-    capture = secondCapture()
-    path = os.path.join(module_directory, 'Images/side_view/side-' + datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg')
-    cv2.imwrite(path, capture)
-    return main_execution(capture, data)
+    return main_execution(secondCapture(), request.form['metricValue'], 'side_view')
 
 
 @application.route('/video_feed')
