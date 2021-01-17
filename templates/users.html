@@ -41,8 +41,8 @@
                   {% if users %}
                         {% for user in users %}
                           <tr>
-                            <td><a class="btn-link" href="/">{{ user.id }}</a></td>
-                            <td class="">{{ user.display_name }}</td>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.display_name }}</td>
                             <td>{{ user.role }}</td>
                             <td>{{ user.email }}</td>
                             <td align="center">

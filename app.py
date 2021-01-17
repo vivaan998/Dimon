@@ -122,5 +122,18 @@ def logs():
         return render_template('index.html', unauthorized=True)
 
 
+@application.route('/view', methods=['GET'])
+def view():
+    if 'user_name' and 'role' in session and session['role'] == 'admin':
+        if 'id' in request.args:
+            image = select_query("SELECT image FROM logs where id=" + request.args['id'])
+            images = image[0]['image'].split(',')
+            head, tail = os.path.split(images[0])
+            head1, tail1 = os.path.split(images[1])
+            print(tail, tail1)
+            return render_template('image.html', username=session['user_name'], role=session['role'], top_view=tail, side_view=tail1)
+    else:
+        return render_template('index.html', unauthorized=True)
+
 if __name__ == '__main__':
     application.run(host='0.0.0.0', port=5000)

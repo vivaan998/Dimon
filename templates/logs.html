@@ -39,8 +39,8 @@
                   {% if logs %}
                         {% for log in logs %}
                           <tr>
-                            <td><a class="btn-link" href="/">{{ log.id }}</a></td>
-                            <td class="">{{ log.log_class }}</td>
+                            <td><button class="btn-link image" data-field="{{ log.id }}">{{ log.id }}</button></td>
+                            <td>{{ log.log_class }}</td>
                             <td>{{ log.image }}</td>
                             <td>{{ log.dimensions }}</td>
                             <td>{{ log.created_timestamp }}</td>
@@ -71,5 +71,10 @@
     $(document).ready(function() {
         $('#dataTable').DataTable();
         } );
+
+        $(".image").on('click', function(){
+        let id = $(this).attr('data-field');
+        window.location.href = '/view?id=' + id;
+      });
 </script>
 {% endblock %}

@@ -17,7 +17,6 @@ def get_logs():
 
 def process_frame(top_view, top_metric, side_view, side_metric):
     try:
-
         processed_top_view, length, width, blacks_counts = xyz(top_view, top_metric)
 
         processed_side_view, height, height1 = abc(side_view, side_metric)
@@ -25,22 +24,22 @@ def process_frame(top_view, top_metric, side_view, side_metric):
         dimensions = "[" + str(length) + " x " + str(width) + "]  [" + str(height) + " x " + str(height1) + "]"
         # stores top original image
         top_name = datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg'
-        original_top_path = os.path.join(module_directory, 'Images/Original/' + top_name)
+        original_top_path = os.path.join(module_directory, 'static/Images/Original/' + top_name)
         cv2.imwrite(original_top_path, top_view)
 
         # stores top processed image
         top_file_name = 'top-' + top_name
-        top_path = os.path.join(module_directory, 'Images/top_view/' + top_file_name)
+        top_path = os.path.join(module_directory, 'static/Images/top_view/' + top_file_name)
         cv2.imwrite(top_path, processed_top_view)
 
         # stores side original image
         side_name = datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg'
-        original_side_path = os.path.join(module_directory, 'Images/Original/' + side_name)
+        original_side_path = os.path.join(module_directory, 'static/Images/Original/' + side_name)
         cv2.imwrite(original_side_path, side_view)
 
         # stores side processed image
         side_file_name = 'side-' + side_name
-        side_path = os.path.join(module_directory, 'Images/side_view/' + side_file_name)
+        side_path = os.path.join(module_directory, 'static/Images/side_view/' + side_file_name)
         cv2.imwrite(side_path, processed_side_view)
 
         images = top_path + ", " + side_path
