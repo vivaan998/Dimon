@@ -2,6 +2,7 @@ import cv2
 import logging
 from flask import jsonify
 from config.log_data import process_frame
+import pickle
 
 
 def firstCapture():
@@ -39,13 +40,25 @@ def genSecondary_frames(camera2):
 def main_execution(view, metric, view_type):
     logging.info('Running main_execution...')
     if view_type == 'top_view':
-        global TOP_VIEW
-        global TOP_METRIC
-        TOP_VIEW = view
-        TOP_METRIC = metric
+        # Storing top view and metric to a temporary storage
+        with open('tempTOP_CAMERA_STORAGE.pkl', 'wb') as f: 
+            pickle.dump([view, metric], f)
         return jsonify({
-            'message': 'Successfully captured'
+            'message': 'Success'
           }), 200
+
     else:
-        if TOP_VIEW and TOP_METRIC:
-            return process_frame(TOP_VIEW, TOP_METRIC, view, metric)
+        # Getting back the top view and metric
+        with open('tempTOP_CAMERA_STORAGE.pkl', 'rb') as f: 
+            top_view, top_metric = pickle.load(f)
+
+        # Setting None again to temp storage
+        with open('tempTOP_CAMERA_STORAGE.pkl', 'wb') as f: 
+            pickle.dump([None, None], f)
+
+        if top_metric:
+            return process_frame(top_view, top_metric, view, metric)
+        else:
+            return jsonify({
+                'message': 'Please capture top view'
+            }), 200

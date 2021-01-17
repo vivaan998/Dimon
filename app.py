@@ -57,7 +57,7 @@ def top_view_capture():
 
 @application.route('/side_view_capture', methods=['POST'])
 def side_view_capture():
-    return secondary_execution(secondCapture(), request.form['metricValue'], 'side_view')
+    return main_execution(secondCapture(), request.form['metricValue'], 'side_view')
 
 
 @application.route('/video_feed')
@@ -71,7 +71,7 @@ def video_feed():
 
 @application.route('/secondary_feed')
 def secondary_feed():
-    camera2 = cv2.VideoCapture(0)
+    camera2 = cv2.VideoCapture(1)
     if 'user_name' in session:
         return Response(genSecondary_frames(camera2), mimetype='multipart/x-mixed-replace; boundary=frame')
     else:
@@ -123,4 +123,4 @@ def logs():
 
 
 if __name__ == '__main__':
-    application.run(host='0.0.0.0', port=5000)
+    application.run(host='127.0.0.1', port=5000)

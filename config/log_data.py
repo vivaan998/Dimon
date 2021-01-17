@@ -71,8 +71,8 @@ def process_frame(top_view, top_metric, side_view, side_metric):
 
 
 def xyz(view, metric):
-    pass
+    return view, 1,2,3
 
 
 def abc(view, metric):
-    pass
+    return view, 5,6
