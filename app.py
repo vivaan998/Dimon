@@ -57,7 +57,7 @@ def top_view_capture():
 
 @application.route('/side_view_capture', methods=['POST'])
 def side_view_capture():
-    return main_execution(secondCapture(), request.form['metricValue'], 'side_view')
+    return secondary_execution(secondCapture(), request.form['metricValue'], 'side_view')
 
 
 @application.route('/video_feed')

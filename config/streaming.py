@@ -1,6 +1,7 @@
 import cv2
 import logging
-from config.log_data import process_top_frame, process_side_frame
+from flask import jsonify
+from config.log_data import process_frame
 
 
 def firstCapture():
@@ -38,6 +39,13 @@ def genSecondary_frames(camera2):
 def main_execution(view, metric, view_type):
     logging.info('Running main_execution...')
     if view_type == 'top_view':
-        return process_top_frame(view, metric)
+        global TOP_VIEW
+        global TOP_METRIC
+        TOP_VIEW = view
+        TOP_METRIC = metric
+        return jsonify({
+            'message': 'Successfully captured'
+          }), 200
     else:
-        return process_side_frame(view, metric)
+        if TOP_VIEW and TOP_METRIC:
+            return process_frame(TOP_VIEW, TOP_METRIC, view, metric)

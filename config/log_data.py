@@ -2,7 +2,7 @@ import logging
 from flask import session, render_template, jsonify
 from data.db import select_query, query_execute
 import os, cv2
-from app import module_directory
+from configuration import module_directory
 from datetime import datetime
 
 
@@ -15,31 +15,41 @@ def get_logs():
         return render_template('index.html', unauthorized=True)
 
 
-def process_top_frame(view, metric):
+def process_frame(top_view, top_metric, side_view, side_metric):
     try:
-        # put your algorithm here and for messages to show on front-end refer the code in accounts.py file
-        # where if condition also return success or error.....
-        view1 = None
-        length = None
-        width = None
-        blacks_counts = None
-        dimensions = str(length) + " x " + str(width)
-        # stores original image
-        main_name = datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg'
-        file_name = 'top-' + main_name
-        path = os.path.join(module_directory, 'Images/Original/' + main_name)
-        cv2.imwrite(path, view)
 
-        # stores processed image
-        path1 = os.path.join(module_directory, 'Images/top_view/' + file_name)
-        cv2.imwrite(path1, view1)
+        processed_top_view, length, width, blacks_counts = xyz(top_view, top_metric)
 
+        processed_side_view, height, height1 = abc(side_view, side_metric)
+
+        dimensions = "[" + str(length) + " x " + str(width) + "]  [" + str(height) + " x " + str(height1) + "]"
+        # stores top original image
+        top_name = datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg'
+        original_top_path = os.path.join(module_directory, 'Images/Original/' + top_name)
+        cv2.imwrite(original_top_path, top_view)
+
+        # stores top processed image
+        top_file_name = 'top-' + top_name
+        top_path = os.path.join(module_directory, 'Images/top_view/' + top_file_name)
+        cv2.imwrite(top_path, processed_top_view)
+
+        # stores side original image
+        side_name = datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg'
+        original_side_path = os.path.join(module_directory, 'Images/Original/' + side_name)
+        cv2.imwrite(original_side_path, side_view)
+
+        # stores side processed image
+        side_file_name = 'side-' + side_name
+        side_path = os.path.join(module_directory, 'Images/side_view/' + side_file_name)
+        cv2.imwrite(side_path, processed_side_view)
+
+        images = top_path + ", " + side_path
         # insert into DB
         try:
             log = query_execute("INSERT INTO logs (log_class, image, dimensions) values (?,?,?)",
                                 (
                                     blacks_counts,
-                                    path1,
+                                    images,
                                     dimensions
                                 )
                                 )
@@ -60,47 +70,9 @@ def process_top_frame(view, metric):
         }), 500
 
 
-def process_side_frame(view, metric):
-    try:
-        # put your algorithm here and for messages to show on front-end refer the code in accounts.py file
-        # where if condition also return success or error.....
-        view1 = None
-        height = None
-        height1 = None
-        blacks_counts = None
-        dimensions = str(height) + " x " + str(height1)
-        # stores original image
-        main_name = datetime.now().strftime("%Y%m%d-%H%M%S") + '.jpg'
-        file_name = 'side-' + main_name
+def xyz(view, metric):
+    pass
 
-        path = os.path.join(module_directory, 'Images/Original/' + main_name)
-        cv2.imwrite(path, view)
 
-        # stores processed image
-        path1 = os.path.join(module_directory, 'Images/side_view/' + file_name)
-        cv2.imwrite(path1, view1)
-
-        # insert into DB
-        try:
-            log = query_execute("INSERT INTO logs (log_class, image, dimensions) values (?,?,?)",
-                                (
-                                    blacks_counts,
-                                    path1,
-                                    dimensions
-                                )
-                                )
-            if log:
-                return jsonify({
-                    'message': 'Success'
-                }), 200
-
-        except Exception as e:
-            logging.error('Failed to save top frame. Message: %s', e)
-            return jsonify({
-                'message': 'Failed to save top frame.'
-            }), 500
-    except Exception as e:
-        logging.error('Failed to process top frame. Message: %s', e)
-        return jsonify({
-            'message': 'Failed to process top frame. Contact support for assistance.'
-        }), 500
+def abc(view, metric):
+    pass

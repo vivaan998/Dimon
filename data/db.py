@@ -6,7 +6,6 @@ import sys
 
 module_directory = os.path.dirname(os.path.realpath(__file__))
 
-print(module_directory)
 
 
 def connection():
